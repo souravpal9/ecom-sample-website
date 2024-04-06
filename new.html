@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navigation Bar</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            display: none;
+        }
+
+        .logo {
+            z-index: 9999;
+        }
+
+        .hero-section {
+            min-height: calc(100vh - 60px); /* Subtracting header height */
+            background-color: #f2f2f2;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 10px;
+            z-index: 9999;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .grid-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .grid-item img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product-description {
+            margin-top: 10px;
+        }
+
+        .contact-section,
+        .about-section {
+            padding: 20px;
+            background-color: #fff;
+            margin-top: 20px;
+        }
+
+        .contact-section h2,
+        .about-section h2 {
+            color: #333;
+        }
+
+        .contact-section p,
+        .about-section p {
+            color: #666;
+        }
+
+        .enquiry-card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .enquiry-card label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .enquiry-card input[type="text"],
+        .enquiry-card input[type="email"],
+        .enquiry-card select,
+        .enquiry-card textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .enquiry-card textarea {
+            height: 100px;
+        }
+
+        .enquiry-card button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .enquiry-card button:hover {
+            background-color: #555;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-top: auto;
+            z-index: 9999;
+        }
+
+        @media screen and (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .menu-icon {
+                display: block;
+                order: 3; /* Order menu button to be last */
+            }
+
+            nav ul {
+                display: none;
+                order: 2; /* Order navigation to be after logo */
+            }
+
+            nav ul.show {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background-color: #333;
+                width: 100%;
+                text-align: center;
+                padding: 10px 0;
+                z-index: 9999;
+            }
+
+            nav ul li {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .hero-section {
+                min-height: calc(100vh - 140px); /* Subtracting header height and menu button height */
+            }
+
+            .grid-container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><h1>Website Name</h1></div>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#grid-section">Products</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#cart">Cart</a></li> <!-- Added Cart button -->
+        </ul>
+    </nav>
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+</header>
+
+<div id="home" class="hero-section">
+    <div class="carousel">
+        <img src="https://via.placeholder.com/600x300" alt="Slide 1">
+        <img src="https://via.placeholder.com/600x300" alt="Slide 2">
+        <img src="https://via.placeholder.com/600x300" alt="Slide 3">
+        <!-- Add more images as needed -->
+    </div>
+    <div class="prev" onclick="moveSlide(-1)">❮</div>
+    <div class="next" onclick="moveSlide(1)">❯</div>
+</div>
+
+<div id="grid-section" class="grid-container">
+    <div class="grid-item">
+        <img src="https://via.placeholder.com/400x400" alt="Product 1">
+        <div class="product-description">
+            <h3>Product 1</h3>
+            <p>Description of Product 1</p>
+            <p>$10</p>
+            <button onclick="addToCart('Product 1', 10)">Add to Cart</button>
+        </div>
+    </div>
+    <!-- Add more grid items as needed -->
+</div>
+
+<div id="about" class="about-section">
+    <h2>About Us</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non diam nec dolor rutrum vestibulum. Proin feugiat ante ac fermentum cursus. Proin auctor dolor eu ante volutpat, vel congue dolor tempus. Maecenas rhoncus lectus non sapien luctus, ut aliquet lorem congue. Duis pulvinar felis vitae est viverra consequat. Sed porta orci sit amet ultricies tincidunt. Ut at arcu non felis iaculis efficitur. Mauris congue metus sit amet mauris euismod, eu sollicitudin leo consequat.</p>
+</div>
+
+<div id="contact" class="contact-section">
+    <h2>Contact Us</h2>
+    <p>Email: info@example.com</p>
+    <p>Phone: +1 234 5678</p>
+    <p>Address: 123 Main Street, City, Country</p>
+
+    <div class="enquiry-card">
+        <h3>Enquiry Form</h3>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Feedback/Enquiry:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <button type="submit">Submit</button>
+            <button type="button" onclick="resetForm()">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<div id="cart" class="cart-section">
+    <h2>Cart</h2>
+    <div id="cart-items"></div>
+    <p id="cart-total"></p>
+    <button id="checkout-btn" onclick="checkout()">Checkout</button> <!-- Add checkout button -->
+</div>
+
+<footer>
+    &copy; 2024 Your Website. All rights reserved.
+</footer>
+
+<script>
+    // Function to handle adding a product to the cart
+    function addToCart(productName, price) {
+        // Check if cart data exists in local storage
+        let cart = localStorage.getItem('cart');
+        if (!cart) {
+            // If cart data doesn't exist, initialize an empty cart array
+            cart = [];
+        } else {
+            // If cart data exists, parse it from JSON
+            cart = JSON.parse(cart);
+        }
+
+        // Add the product to the cart array
+        cart.push({ name: productName, price: price });
+
+        // Save the updated cart data back to local storage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // Update the cart interface to reflect the added product
+        updateCartUI();
+    }
+
+    // Function to update the cart interface
+    function updateCartUI() {
+        // Retrieve cart data from local storage
+        const cart = JSON.parse(localStorage.getItem('cart'));
+
+        // Get the cart container element
+        const cartContainer = document.getElementById('cart-items');
+
+        // Clear previous content of the cart container
+        cartContainer.innerHTML = '';
+
+        // Initialize total price variable
+        let totalPrice = 0;
+
+        // Loop through each item in the cart and create HTML elements to display them
+        cart.forEach(item => {
+            // Create a grid item for each item in the cart
+            const gridItem = document.createElement('div');
+            gridItem.classList.add('grid-item');
+
+            // Create image element
+            const img = document.createElement('img');
+            img.src = 'https://via.placeholder.com/400x400';
+            img.alt = item.name;
+            gridItem.appendChild(img);
+
+            // Create product description
+            const productDescription = document.createElement('div');
+            productDescription.classList.add('product-description');
+
+            const productNameElement = document.createElement('h3');
+            productNameElement.textContent = item.name;
+
+            const priceElement = document.createElement('p');
+            priceElement.textContent = '$' + item.price;
+
+            productDescription.appendChild(productNameElement);
+            productDescription.appendChild(priceElement);
+            gridItem.appendChild(productDescription);
+
+            // Add the grid item to the cart container
+            cartContainer.appendChild(gridItem);
+
+            // Update total price
+            totalPrice += item.price;
+        });
+
+        // Update total price display
+        const totalElement = document.getElementById('cart-total');
+        totalElement.textContent = 'Total: $' + totalPrice.toFixed(2);
+    }
+
+
+
+    
+// Function to handle checkout process
+function checkout() {
+    // Clear cart data from local storage
+    localStorage.removeItem('cart');
+
+    // Update the cart interface to reflect the cleared cart
+    updateCartUI();
+
+    // Reset total price display
+    const totalElement = document.getElementById('cart-total');
+    totalElement.textContent = 'Total: $0.00'; // Reset total price display
+
+    // Display checkout message
+    const cartContainer = document.getElementById('cart-items');
+    cartContainer.innerHTML = '<p>Your items will be delivered shortly to your place! Keep shopping and have fun!</p>';
+
+    // Display popup message
+    alert('Your items will be delivered shortly to your place! Keep shopping and have fun!');
+}
+
+
+
+
+
+
+    
+    // Call updateCartUI() function when the page loads to initialize the cart interface
+    updateCartUI();
+
+    // Toggle menu function for mobile view
+    function toggleMenu() {
+        const navList = document.querySelector('nav ul');
+        navList.classList.toggle('show');
+    }
+
+    // Function to move carousel slides
+    let slideIndex = 0;
+    function moveSlide(n) {
+        const slides = document.querySelectorAll('.carousel img');
+        slideIndex += n;
+        if (slideIndex >= slides.length) {
+            slideIndex = 0;
+        }
+        if (slideIndex < 0) {
+            slideIndex = slides.length - 1;
+        }
+        slides.forEach(slide => {
+            slide.style.transform = `translateX(-${slideIndex * 100}%)`;
+        });
+    }
+</script>
+
+</body>
+</html>
